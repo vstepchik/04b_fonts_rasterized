@@ -1,4 +1,3 @@
-all:
-	find . -iname '*.bdf' -exec bash -c 'echo $1 && ./bdf2gfx.py $1 > $1.h' - {} \;
-
-.PHONY: all
+.PHONY: convert-bdf
+convert-bdf:
+	find . -type f -name '*.bdf' -exec sh -c './bdf2gfx.py "$$1" > "$${1%.bdf}.h"' sh {} \;
