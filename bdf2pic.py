@@ -40,8 +40,9 @@ def draw_char(fnt: FontInfo, draw, x, y, char_code, grid_size):
     if glyph is None:
         return  # Character not found
 
+    bits_width = max(glyph.rows).bit_length()
     for row_num, row in enumerate(glyph.rows):
-        binary_row = format(row, f'0{glyph.width}b')
+        binary_row = format(row, f'0{bits_width}b')
         for col_num, bit in enumerate(binary_row):
             if bit == '1':
                 draw.point((x + glyph.xoffs + col_num, y + glyph.yoffs + row_num), 'black');

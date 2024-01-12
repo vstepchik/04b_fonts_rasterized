@@ -85,7 +85,6 @@ def process_bdf(file_path: str) -> FontInfo:
                 processing = True
                 vals = line.split()
                 g = Glyph(comment=vals[1])
-                g.width = 8  # in this example always 8 bits wide
             elif 'ENDCHAR' in line:
                 if g.encoding in range(0x00, 0xFF + 1):
                     chars.append(g)  # append the completed glyph into list
@@ -107,8 +106,11 @@ def process_bdf(file_path: str) -> FontInfo:
                         last_glyph = enc if last_glyph is None else max(last_glyph, enc)
                 elif 'BBX' in line:
                     vals = line.split()
-                    g.xoffs = 0
+                    g.xoffs = int(vals[3])
                     g.yoffs = -(int(vals[2]) + int(vals[4]))
+
+                    g.width = int(vals[1])
+                    g.height = int(vals[2])
                     g.advance = (int(vals[1]) + 1)  # x bounding box + 1
                 elif 'BITMAP' in line:
                     getting_rows = True
